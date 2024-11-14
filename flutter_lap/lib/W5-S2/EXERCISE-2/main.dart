@@ -5,7 +5,7 @@ import 'model/profile_tile_model.dart';
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: ProfileApp(
+    home: ProfileBuild(
       profile: ProfileData(
         name: "Ronan OGOR",
         position: "Flutter Developer",
@@ -23,10 +23,10 @@ void main() {
 
 const Color mainColor = Color(0xff5E9FCD);
 
-class ProfileApp extends StatelessWidget {
+class ProfileBuild extends StatelessWidget {
   final ProfileData profile;
 
-  const ProfileApp({Key? key, required this.profile}) : super(key: key);
+  const ProfileBuild({Key? key, required this.profile}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
