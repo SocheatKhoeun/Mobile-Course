@@ -5,28 +5,16 @@ import 'model/profile_tile_model.dart';
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: ProfileBuild(
-      profile: ProfileData(
-        name: "Ronan OGOR",
-        position: "Flutter Developer",
-        avatarUrl: 'assets/w4-s2/man.jpg',
-        tiles: [
-          TileData(icon: Icons.phone, title: "Phone Number", value: "+123 456 7890"),
-          TileData(icon: Icons.location_on, title: "Address", value: "123 Cambodia"),
-          TileData(icon: Icons.email, title: "Mail", value: "ronan.ogogr@cadt.edu"),
-          TileData(icon: Icons.link, title: "LinkedIn", value: "linkedin.com/in/ronanogor"),
-        ],
-      ),
-    ),
+    home: ProfileApp(profile: ronanProfile), 
   ));
 }
 
 const Color mainColor = Color(0xff5E9FCD);
 
-class ProfileBuild extends StatelessWidget {
+class ProfileApp extends StatelessWidget {
   final ProfileData profile;
 
-  const ProfileBuild({Key? key, required this.profile}) : super(key: key);
+  const ProfileApp({Key? key, required this.profile}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +54,6 @@ class ProfileBuild extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            // Use a ListView builder to display tiles dynamically and manage scrolling
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),

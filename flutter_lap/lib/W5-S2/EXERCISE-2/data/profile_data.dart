@@ -1,27 +1,13 @@
 import 'package:flutter/material.dart';
-
-class ProfileData {
-  final String name;
-  final String position;
-  final String avatarUrl;
-  final List<TileData> tiles;
-
-  ProfileData({
-    required this.name,
-    required this.position,
-    required this.avatarUrl,
-    required this.tiles,
-  });
-}
-
-class TileData {
-  final IconData icon;
-  final String title;
-  final String value;
-
-  TileData({
-    required this.icon,
-    required this.title,
-    required this.value,
-  });
-}
+import 'package:flutter_lap/W5-S2/EXERCISE-2/model/profile_tile_model.dart';
+ 
+ProfileData ronanProfile = ProfileData(
+  name: "Ronan",
+  position: "Flutter Developer",
+  avatarUrl: 'assets/w4-s2/man.jpg',
+  tiles: [
+    TileData(icon: Icons.phone, title: "Phone Number", value: "+123 456 7890"),
+    TileData(icon: Icons.location_on, title: "Address", value: "123 Cambodia"),
+    TileData(icon: Icons.email, title: "Mail", value: "ronan.ogogr@cadt.edu"),
+  ]
+);
