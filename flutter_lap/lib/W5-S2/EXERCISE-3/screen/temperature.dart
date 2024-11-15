@@ -1,4 +1,3 @@
-//temperature.dart
 import 'package:flutter/material.dart';
 
 class Temperature extends StatelessWidget {
