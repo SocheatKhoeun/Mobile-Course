@@ -5,7 +5,7 @@ import 'model/profile_tile_model.dart';
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: ProfileApp(profile: ronanProfile), 
+    home: ProfileApp(profile: ronanProfile),
   ));
 }
 
@@ -54,22 +54,41 @@ class ProfileApp extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: profile.tiles.length,
-              itemBuilder: (context, index) {
-                final tile = profile.tiles[index];
-                return ProfileTile(
-                  icon: tile.icon,
-                  title: tile.title,
-                  data: tile.value,
-                );
-              },
-            ),
+            ...profile.tiles.map((tile) => ProfileTile(icon: tile.icon, title: tile.title, data: tile.value)),
+            ...profile.tiles.map((tile) => ProfileTile(icon: tile.icon, title: tile.title, data: tile.value)),
+            ...profile.tiles.map((tile) => ProfileTile(icon: tile.icon, title: tile.title, data: tile.value))
           ],
         ),
       ),
     );
   }
 }
+
+class ProfileTile extends StatelessWidget {
+  const ProfileTile({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.data,
+  });
+
+  final IconData icon;
+  final String title;
+  final String data;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        child: ListTile(
+          leading: Icon(icon, color: mainColor),
+          title: Text(title),
+          subtitle: Text(data),
+        ),
+      ),
+    );
+  }
+}
+
