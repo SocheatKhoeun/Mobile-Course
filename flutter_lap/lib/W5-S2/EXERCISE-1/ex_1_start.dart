@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 
 List<String> colors = ["red", "blue", "green"];
 
+List<Widget> getLabels() { 
+  return colors.map((item) => Text(item)).toList(); 
+} 
+
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -22,7 +26,9 @@ void main() {
             ),
             Label("Method 3: Dedicated Function", bold: true),
             Column(
-              children: colors.map((color) => Label(color)).toList(),
+              children: [
+                ...getLabels(), 
+              ],
             ),
           ],
         ),
