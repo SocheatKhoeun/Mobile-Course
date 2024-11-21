@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lap/W5-S2/EXERCISE-4/joke.dart';
 
+// Favorite jokes data: Stored in the favoriteIndex variable.
+// Widget storing favorite joke: FavoriteJokesApp (in its state).
+// Stateful widget: FavoriteJokesApp.
+// Stateless widget: JokeCard.
+// Widget interaction: JokeCard receives data and triggers the onFavoriteSelected callback, updating the state in FavoriteJokesApp.
+// Callback function: onFavoriteSelected, used to notify and update the favorite joke.
+
 void main() => runApp(MaterialApp(
       home: FavoriteJokesApp(),
     ));
@@ -35,15 +42,15 @@ class _FavoriteJokesAppState extends State<FavoriteJokesApp> {
         backgroundColor: Colors.green[300],
         title: const Text("Favorite Jokes"),
       ),
-      body: ListView.builder(
-        itemCount: jokes.length,
-        itemBuilder: (context, index) {
-          return JokeCard(
-            joke: jokes[index],
-            isFavorite: favoriteIndex == index,
-            onFavoriteSelected: () => setFavorite(index),
-          );
-        },
+      body: ListView(
+        children: [
+          for (int index = 0; index < jokes.length; index++)
+            JokeCard(
+              joke: jokes[index],
+              isFavorite: favoriteIndex == index,
+              onFavoriteSelected: () => setFavorite(index),
+          ),
+        ],
       ),
     );
   }
