@@ -1,44 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_lap/W6-S2/model/quiz.dart';
+import '../model/quiz.dart';
 
-
-class QuestionScreen extends StatelessWidget {
-  final Question question;
-  final Function(String) onAnswerSelected;
+class QuestionScreen extends StatefulWidget {
+  final Question question; 
+  final void Function(String answer) onAnswerSelected; 
 
   const QuestionScreen({
-    super.key,
     required this.question,
     required this.onAnswerSelected,
+    super.key,
   });
 
   @override
+  State<QuestionScreen> createState() => _QuestionScreenState();
+}
+
+class _QuestionScreenState extends State<QuestionScreen> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Question Screen')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      backgroundColor: Colors.blue, 
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Display the question title
             Text(
-              question.title,
+              widget.question.title,
               style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                color: Colors.white, 
               ),
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.center, 
             ),
-            const SizedBox(height: 20),
-            
-            // Display possible answers as buttons
-            ...question.possibleAnswers.map((answer) {
-              return ElevatedButton(
-                onPressed: () => onAnswerSelected(answer),
-                child: Text(answer),
-              );
-            }).toList(),
+            const SizedBox(height: 20), 
+
+            for (final answer in widget.question.possibleAnswers)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.8, // Button width: 80% of screen
+                  child: ElevatedButton(
+                    onPressed: () {
+                      widget.onAnswerSelected(answer); 
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      backgroundColor: Colors.lightBlue[200], 
+                      foregroundColor: Colors.white, 
+                      textStyle: const TextStyle(
+                        fontSize: 18, 
+                        fontWeight: FontWeight.bold, 
+                      ),
+                    ),
+                    child: Text(
+                      answer, 
+                      textAlign: TextAlign.center, 
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
