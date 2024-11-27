@@ -1,4 +1,3 @@
-//screen/expense_item.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_lap/Practices/w8-s1/models/expense.dart';
 

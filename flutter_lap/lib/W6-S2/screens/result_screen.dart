@@ -24,127 +24,109 @@ class ResultScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _buildScoreDisplay(),
-            Expanded(child: _buildQuestionResults()),
-            _buildRestartButton(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildScoreDisplay() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 30),
-      child: Text(
-        'You answered $score on ${questions.length}!',
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          fontSize: 26,
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildQuestionResults() {
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      itemCount: questions.length,
-      itemBuilder: (context, index) {
-        final question = questions[index];
-        final userAnswer = userAnswers.getAnswerFor(question);
-        final isCorrect = userAnswer == question.goodAnswer;
-
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          child: Column(
-            children: [
-              _buildQuestionHeader(index, question.title, isCorrect),
-              _buildAnswerOptions(question, userAnswer!),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildQuestionHeader(int index, String title, bool isCorrect) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CircleAvatar(
-          backgroundColor: isCorrect ? Colors.green : Colors.red,
-          radius: 18,
-          child: Text(
-            '${index + 1}',
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        const SizedBox(width: 12),
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildAnswerOptions(Question question, String userAnswer) {
-    return Column(
-      children: question.possibleAnswers.map((answer) {
-        final isCorrectAnswer = answer == question.goodAnswer;
-        final isUserAnswer = answer == userAnswer;
-
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (isCorrectAnswer)
-                const Icon(Icons.check, color: Color.fromARGB(255, 16, 87, 21)),
-              const SizedBox(width: 8),
-              Text(
-                answer,
-                style: TextStyle(
-                  color: isCorrectAnswer
-                      ? const Color.fromARGB(255, 16, 87, 21)
-                      : (isUserAnswer ? Colors.red : Colors.black),
-                  fontSize: 16,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 30.0),
+              child: Text(
+                'You answered $score on ${questions.length}!',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 26,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ],
-          ),
-        );
-      }).toList(),
-    );
-  }
+            ),
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemCount: questions.length,
+                itemBuilder: (context, index) {
+                  final question = questions[index];
+                  final userAnswer = userAnswers.getAnswerFor(question);
+                  final isCorrect = userAnswer == question.goodAnswer;
 
-  Widget _buildRestartButton() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: ElevatedButton.icon(
-        onPressed: onRestartQuiz,
-        icon: const Icon(Icons.restart_alt),
-        label: const Text('Restart Quiz'),
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.blue,
-          textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: isCorrect ? Colors.green : Colors.red,
+                              radius: 18,
+                              child: Text(
+                                '${index + 1}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              question.title,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: question.possibleAnswers.map((answer) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  if (answer == question.goodAnswer)
+                                    const Icon(Icons.check, color: Color.fromARGB(255, 44, 227, 56)),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    answer,
+                                    style: TextStyle(
+                                      color: answer == question.goodAnswer
+                                          ? const Color.fromARGB(255, 44, 227, 56)
+                                          : ((answer == userAnswer) ? Colors.red : Colors.black),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: ElevatedButton.icon(
+                onPressed: onRestartQuiz,
+                icon: const Icon(Icons.restart_alt),
+                label: const Text('Restart Quiz'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.blue,
+                  textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
