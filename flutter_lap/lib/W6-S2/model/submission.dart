@@ -17,7 +17,7 @@ class Submission {
   int getScore() {
     int score = 0;
     for (var question in questions) {
-      final answer = _answers[question] ?? ''; // empty answer
+      final answer = _answers[question] ?? ''; // assign for empty answer
       if (Answer(answer: answer).isCorrect(question)) {
         score++;
       }
