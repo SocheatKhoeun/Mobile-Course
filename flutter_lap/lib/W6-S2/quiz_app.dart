@@ -15,13 +15,19 @@ class QuizApp extends StatefulWidget {
 }
 
 class _QuizAppState extends State<QuizApp> {
-  int _currentQuestionIndex = -1; // -1 indicates the welcome screen
-  final Submission _submission = Submission();
+  int _currentQuestionIndex = -1;
+  late final Submission _submission;
+
+  @override
+  void initState() {
+    super.initState();
+    _submission = Submission(questions: widget.quiz.questions);
+  }
 
   void _restartQuiz() {
     setState(() {
       _currentQuestionIndex = -1;
-      _submission.clearAnswers();
+      _submission.removeAnswers();
     });
   }
 
@@ -56,7 +62,7 @@ class _QuizAppState extends State<QuizApp> {
       );
     } else {
       return ResultScreen(
-        score: _submission.getScore(widget.quiz.questions),
+        score: _submission.getScore(),
         questions: widget.quiz.questions,
         userAnswers: _submission,
         onRestartQuiz: _restartQuiz,

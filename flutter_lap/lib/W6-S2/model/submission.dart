@@ -5,32 +5,37 @@ class Answer {
 
   Answer({required this.answer});
 
-  bool isCorrectAnswer(Question question) => question.goodAnswer == answer;
+  bool isCorrect(Question question) => question.goodAnswer == answer;
 }
 
 class Submission {
   final Map<Question, String> _answers = {};
+  final List<Question> questions;
 
-  int getScore(List<Question> questions) {
+  Submission({required this.questions});
+
+  int getScore() {
     int score = 0;
     for (var question in questions) {
-      if (_answers[question] == question.goodAnswer) {
+      final answer = _answers[question];
+      if (answer != null && Answer(answer: answer).isCorrect(question)) {
         score++;
       }
     }
     return score;
   }
 
+
+  Answer? getAnswerFor(Question question) {
+    final answer = _answers[question];
+    return answer != null ? Answer(answer: answer) : null;
+  }
+
   void addAnswer(Question question, String answer) {
-    if (answer.isEmpty) {
-      throw ArgumentError("Answer cannot be empty.");
-    }
     _answers[question] = answer;
   }
 
-  void clearAnswers() {
+  void removeAnswers() {
     _answers.clear();
   }
-
-  String? getAnswerFor(Question question) => _answers[question];
 }

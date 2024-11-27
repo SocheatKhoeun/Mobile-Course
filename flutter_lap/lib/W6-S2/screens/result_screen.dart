@@ -27,7 +27,7 @@ class ResultScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 30.0),
               child: Text(
-                'You answered $score on ${questions.length}!',
+                'You scored $score out of ${questions.length}!',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 26,
@@ -42,9 +42,8 @@ class ResultScreen extends StatelessWidget {
                 itemCount: questions.length,
                 itemBuilder: (context, index) {
                   final question = questions[index];
-                  final userAnswer = userAnswers.getAnswerFor(question);
+                  final userAnswer = userAnswers.getAnswerFor(question)?.answer;
                   final isCorrect = userAnswer == question.goodAnswer;
-
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
                     child: Column(
@@ -86,14 +85,14 @@ class ResultScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   if (answer == question.goodAnswer)
-                                    const Icon(Icons.check, color: Color.fromARGB(255, 44, 227, 56)),
+                                    const Icon(Icons.check, color: Colors.green),
                                   const SizedBox(width: 8),
                                   Text(
                                     answer,
                                     style: TextStyle(
                                       color: answer == question.goodAnswer
-                                          ? const Color.fromARGB(255, 44, 227, 56)
-                                          : ((answer == userAnswer) ? Colors.red : Colors.black),
+                                          ? Colors.green
+                                          : (answer == userAnswer ? Colors.red : Colors.black),
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                     ),

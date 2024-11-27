@@ -24,7 +24,6 @@ class _QuestionScreenState extends State<QuestionScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Display the question title
             Text(
               widget.question.title,
               style: const TextStyle(
@@ -34,12 +33,11 @@ class _QuestionScreenState extends State<QuestionScreen> {
               textAlign: TextAlign.center, 
             ),
             const SizedBox(height: 20), 
-
             for (final answer in widget.question.possibleAnswers)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.8, // Button width: 80% of screen
+                  width: MediaQuery.of(context).size.width * 0.8,
                   child: ElevatedButton(
                     onPressed: () {
                       widget.onAnswerSelected(answer); 
