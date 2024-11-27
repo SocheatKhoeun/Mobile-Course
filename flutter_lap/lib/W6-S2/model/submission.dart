@@ -25,7 +25,6 @@ class Submission {
     return score;
   }
 
-
   Answer? getAnswerFor(Question question) {
     final answer = _answers[question];
     return answer != null ? Answer(answer: answer) : null;
