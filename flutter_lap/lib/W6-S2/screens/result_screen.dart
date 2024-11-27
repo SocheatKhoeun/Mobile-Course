@@ -27,7 +27,7 @@ class ResultScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 30.0),
               child: Text(
-                'You scored $score out of ${questions.length}!',
+                'You answered $score on ${questions.length}!',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 26,
