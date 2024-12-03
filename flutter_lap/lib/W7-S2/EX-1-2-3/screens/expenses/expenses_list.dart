@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_lap/W7-S2/models/expense.dart';
+import '../../models/expense.dart';
 import 'expenses_item.dart';
 
 class ExpensesList extends StatelessWidget {
@@ -17,7 +17,7 @@ class ExpensesList extends StatelessWidget {
     return expenses.isEmpty
         ? Center(
             child: Text(
-              'No expenses added yet!',
+              "No expenses found. Start adding some!",
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey[600],
@@ -30,16 +30,6 @@ class ExpensesList extends StatelessWidget {
               itemCount: expenses.length,
               itemBuilder: (context, index) => Dismissible(
                 key: ValueKey(expenses[index].id),
-                background: Container(
-                  alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  color: Colors.red,
-                  child: const Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                  ),
-                ),
-                direction: DismissDirection.endToStart,
                 onDismissed: (direction) {
                   onExpenseRemoved(expenses[index]);
                 },

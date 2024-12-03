@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_lap/W7-S2/models/expense.dart';
+import 'package:flutter_lap/Practices/w9-s2/models/expense.dart';
 import 'package:intl/intl.dart';
 
 class ExpenseForm extends StatefulWidget {

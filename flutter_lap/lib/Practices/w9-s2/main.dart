@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_lap/W7-S2/screens/expenses.dart'; 
+import 'package:flutter_lap/Practices/w9-s2/screens/expenses.dart';
 
 void main() {
   runApp(
