@@ -70,7 +70,7 @@ class _ExpensesState extends State<Expenses> {
       backgroundColor: Colors.blue[100],
       appBar: AppBar(
         backgroundColor: Colors.blue[700],
-        title: const Text('Expenses Tracker'),
+        title: const Text('Ronan-The-Best Expenses App'),
         actions: [
           IconButton(
             onPressed: _onAddPressed,
