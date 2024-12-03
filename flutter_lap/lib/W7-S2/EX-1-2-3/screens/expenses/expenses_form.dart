@@ -15,7 +15,7 @@ class ExpenseForm extends StatefulWidget {
 class _ExpenseFormState extends State<ExpenseForm> {
   final _titleController = TextEditingController();
   final _valueController = TextEditingController();
-  Category? _selectedCategory;
+  Category? _selectedCategory; // Fixed the naming inconsistency
   DateTime? _selectedDate;
 
   @override
@@ -26,8 +26,8 @@ class _ExpenseFormState extends State<ExpenseForm> {
   }
 
   void _onCancel() {
-    // close modal
-    Navigator.pop(context);
+    // Close modal
+    Navigator.pop(context); 
   }
 
   Future<void> _selectDate() async {
@@ -44,7 +44,6 @@ class _ExpenseFormState extends State<ExpenseForm> {
     }
   }
 
-
   void _onAdd() {
     // Get the values from inputs
     String title = _titleController.text;
@@ -55,8 +54,8 @@ class _ExpenseFormState extends State<ExpenseForm> {
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: const Text("Invalid Input"),
-          content: const Text("Please ensure all fields are filled out correctly."),
+          title: const Text("Invalid Input!"),
+          content: const Text("Please ensure that all fields are filled out correctly."),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(ctx).pop(),
@@ -79,7 +78,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
     widget.onCreated(expense);
 
     // Close modal
-    Navigator.pop(context);
+    Navigator.pop(context); 
   }
 
   @override
@@ -96,55 +95,63 @@ class _ExpenseFormState extends State<ExpenseForm> {
               label: Text('Title'),
             ),
           ),
-          TextField(
-            keyboardType: TextInputType.number,
-            controller: _valueController,
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')), // Allow numbers with decimals
-            ],
-            maxLength: 10,
-            decoration: const InputDecoration(
-              prefix: Text('\$ '),
-              label: Text('Amount'),
-            ),
-          ),
-          DropdownButton<Category>(
-            value: _selectedCategory,
-            items: Category.values.map((category) {
-              return DropdownMenuItem(
-                value: category,
-                child: Text(category.name.toUpperCase()),
-              );
-            }).toList(),
-            onChanged: (value) {
-              setState(() {
-                _selectedCategory = value;
-              });
-            },
-            hint: const Text('Select Category'),
-          ),
+          const SizedBox(height: 8),
           Row(
             children: [
-              Expanded(
-                child: Text(
-                  _selectedDate == null
-                      ? 'No date selected'
-                      : 'Date: ${DateFormat.yMd().format(_selectedDate!)}',
-                  style: const TextStyle(fontSize: 16),
+              Flexible(
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                  ],
+                  controller: _valueController,
+                  maxLength: 10,
+                  decoration: const InputDecoration(
+                    prefix: Text('\$ '),
+                    label: Text('Amount'),
+                  ),
                 ),
               ),
+              const SizedBox(width: 8),
+              Text(
+                _selectedDate == null
+                    ? "No date selected"
+                    : DateFormat.yMd().format(_selectedDate!),
+                style: const TextStyle(fontSize: 16),
+              ),
               IconButton(
-                icon: const Icon(Icons.calendar_today),
-                onPressed: _selectDate,
+                onPressed: _selectDate, // Updated to use the correct method
+                icon: const Icon(Icons.calendar_month),
               ),
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(onPressed: _onCancel, child: const Text('Cancel')),
+              DropdownButton<Category>(
+                value: _selectedCategory,
+                items: Category.values.map((category) {
+                  return DropdownMenuItem(
+                    value: category,
+                    child: Text(category.name.toUpperCase()),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedCategory = value!;
+                  });
+                },
+                hint: const Text("Select Category"),
+              ),
+              const Spacer(),
+              ElevatedButton(
+                onPressed: _onCancel,
+                child: const Text('Cancel'),
+              ),
               const SizedBox(width: 20),
-              ElevatedButton(onPressed: _onAdd, child: const Text('Create')),
+              ElevatedButton(
+                onPressed: _onAdd,
+                child: const Text('Save Expense'),
+              ),
             ],
           ),
         ],
