@@ -15,7 +15,7 @@ class ExpenseForm extends StatefulWidget {
 class _ExpenseFormState extends State<ExpenseForm> {
   final _titleController = TextEditingController();
   final _valueController = TextEditingController();
-  Category? _selectedCategory; // Fixed the naming inconsistency
+  Category? _selectedCategory; 
   DateTime? _selectedDate;
 
   @override
@@ -35,9 +35,9 @@ class _ExpenseFormState extends State<ExpenseForm> {
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
+      lastDate: DateTime.now(),
     );
-    if (pickedDate != null) {
+    if (pickedDate != null && pickedDate != _selectedDate) {
       setState(() {
         _selectedDate = pickedDate;
       });

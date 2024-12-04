@@ -8,11 +8,17 @@ environment:
   sdk: ^3.5.3
 
 dependencies:
-  uuid: ^3.0.7
   flutter:
     sdk: flutter
+  sqflite: ^2.0.0+4  # Ensure you have the correct version
+  path: ^1.8.0   
+  provider: ^6.1.2 # For state management
+  shared_preferences: ^2.1.1 # For local storage
+  flutter_local_notifications: ^12.0.4 # For reminders     # For handling file paths
+  uuid: ^3.0.7
+  fl_chart: ^0.69.2  # For charts
   cupertino_icons: ^1.0.8
-  intl: ^0.18.0  # Add this line for the intl package
+  intl: ^0.18.0      # For internationalization (date formatting, etc.)
 
 dev_dependencies:
   flutter_test:
