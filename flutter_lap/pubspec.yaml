@@ -19,6 +19,8 @@ dependencies:
   fl_chart: ^0.69.2  # For charts
   cupertino_icons: ^1.0.8
   intl: ^0.18.0      # For internationalization (date formatting, etc.)
+  sizer: ^2.0.15
+  google_fonts: ^3.0.1
 
 dev_dependencies:
   flutter_test:

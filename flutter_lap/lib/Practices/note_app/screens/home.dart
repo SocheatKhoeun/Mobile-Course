@@ -1,11 +1,9 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_lap/Practices/note_app/models/note.dart';
 import 'package:flutter_lap/Practices/note_app/screens/edit.dart';
 import 'package:intl/intl.dart';
 import '../constants/colors.dart';
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
