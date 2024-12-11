@@ -1,71 +1,99 @@
 import 'package:flutter/material.dart';
+import '../models/grocery_item.dart';
 import '../models/grocery_category.dart';
+import '../models/mode.dart';
 
 class NewItem extends StatefulWidget {
-  const NewItem({super.key});
+  const NewItem({
+    super.key,
+    required this.mode,
+    this.existingItem, 
+  });
+
+  final Mode mode; 
+  final GroceryItem? existingItem;
 
   @override
-  State<NewItem> createState() {
-    return _NewItemState();
-  }
+  State<NewItem> createState() => _NewItemState();
 }
 
 class _NewItemState extends State<NewItem> {
-  // We create a key to access and control the state of the Form.
   final _formKey = GlobalKey<FormState>();
+  
+  late final TextEditingController _nameController;
+  late final TextEditingController _quantityController;
 
-  String _enteredName = '';
+  GroceryCategory? _selectedCategory;
 
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController(text: widget.existingItem?.name ?? '');
+    _quantityController = TextEditingController(text: widget.existingItem?.quantity.toString() ?? '');
+    _selectedCategory = widget.existingItem?.category;
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _quantityController.dispose();
+    super.dispose();
+  }
+
+  /// Saves the item after validation.
   void _saveItem() {
+    if (!_formKey.currentState!.validate()) return;
 
-    // 1 - Validate the form
-    bool isValid = _formKey.currentState!.validate();
-    if (isValid) {
-      
-      // 2 - Save the form to get last entered values
-      _formKey.currentState!.save();
-
-      // TODO: Get the last entered quantity
-      print("Name $_enteredName");
+    if (_selectedCategory == null) {
+      // Show error if no category is selected.
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select a category')),
+      );
+      return;
     }
+
+    // Create a new GroceryItem with user input.
+    final newItem = GroceryItem(
+      id: widget.existingItem?.id ?? DateTime.now().toString(),
+      name: _nameController.text, 
+      quantity: int.parse(_quantityController.text), 
+      category: _selectedCategory!,
+    );
+
+    Navigator.of(context).pop(newItem);
   }
 
   void _resetForm() {
-    // TODO: reset the form
+    setState(() {
+      _nameController.clear();
+      _quantityController.text = ' '; 
+      _selectedCategory = null;
+    });
   }
-
-  String? validateTitle(String? value) {
-    if (value == null ||
-        value.isEmpty ||
-        value.trim().length <= 1 ||
-        value.trim().length > 50) {
-      return 'Must be between 1 and 50 characters.';
-    }
-    return null;
-  }
-
-  // TODO: validate quantity
 
   @override
   Widget build(BuildContext context) {
+    final isEditing = widget.mode == Mode.editing;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add a new item'),
+        title: Text(isEditing ? 'Edit Item' : 'Add a new item'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Form(
-          key: _formKey,
+          key: _formKey, 
           child: Column(
             children: [
               TextFormField(
+                controller: _nameController,
                 maxLength: 50,
-                decoration: const InputDecoration(
-                  label: Text('Name'),
-                ),
-                validator: validateTitle,
-                onSaved: (value) {
-                  _enteredName = value!;
+                decoration: const InputDecoration(label: Text('Name')),
+                validator: (value) {
+                  if (value == null || value.isEmpty || value.trim().length < 2 || value.trim().length > 50) {
+                    return 'Must be between 2 and 50 characters.'; 
+                  }
+                  return null;
                 },
               ),
               const SizedBox(height: 10),
@@ -74,33 +102,38 @@ class _NewItemState extends State<NewItem> {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      decoration: const InputDecoration(
-                        label: Text('Quantity'),
-                      ),
-                      initialValue: '1',
+                      controller: _quantityController,
+                      decoration: const InputDecoration(label: Text('Quantity')),
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || int.tryParse(value) == null || int.parse(value) <= 0) {
+                          return 'Enter a valid quantity greater than 0.';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: DropdownButtonFormField<GroceryCategory>(
-                      items: [
-                        for (final category in GroceryCategory.values)
-                          DropdownMenuItem<GroceryCategory>(
-                            value: category,
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 16,
-                                  height: 16,
-                                  color: category.color,
-                                ),
-                                const SizedBox(width: 6),
-                                Text(category.label),
-                              ],
-                            ),
+                      value: _selectedCategory,
+                      hint: const Text('Select Category'),
+                      items: GroceryCategory.values.map((category) {
+                        return DropdownMenuItem(
+                          value: category, 
+                          child: Row(
+                            children: [
+                              Container(width: 16, height: 16, color: category.color),
+                              const SizedBox(width: 6),
+                              Text(category.label),
+                            ],
                           ),
-                      ],
-                      onChanged: (value) {},
+                        );
+                      }).toList(),
+                      onChanged: (value) => setState(() {
+                        _selectedCategory = value;
+                      }),
+                      validator: (value) => value == null ? 'Please select a category' : null,
                     ),
                   ),
                 ],
@@ -115,8 +148,8 @@ class _NewItemState extends State<NewItem> {
                   ),
                   ElevatedButton(
                     onPressed: _saveItem,
-                    child: const Text('Add Item'),
-                  )
+                    child: Text(isEditing ? 'Save Changes' : 'Add Item'),
+                  ),
                 ],
               ),
             ],

@@ -40,24 +40,6 @@ class _NewItemState extends State<NewItem> {
     }
   }
 
-    // Validate inputs
-    // if (_name.isEmpty || _quantity == null || _selectedCategory == null) {
-    //   showDialog(
-    //     context: context,
-    //     builder: (ctx) => AlertDialog(
-    //       title: const Text("Invalid Input!"),
-    //       content: const Text("Please ensure that all fields are filled out correctly."),
-    //       actions: [
-    //         TextButton(
-    //           onPressed: () => Navigator.of(ctx).pop(),
-    //           child: const Text("OK"),
-    //         ),
-    //       ],
-    //     ),
-    //   );
-    //   return;
-    // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
