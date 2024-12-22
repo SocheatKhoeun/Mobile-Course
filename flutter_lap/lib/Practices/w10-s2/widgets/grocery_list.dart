@@ -31,11 +31,10 @@ class _GroceryListState extends State<GroceryList> {
     }
   }
 
-  // Edits an existing grocery item
   void _editItem(GroceryItem item) async {
     final editedItem = await Navigator.of(context).push<GroceryItem>(
       MaterialPageRoute(
-        builder: (ctx) => NewItem(mode: Mode.editing, existingItem: item),
+        builder: (ctx) => NewItem(mode: Mode.editing, items: item),
       ),
     );
 
@@ -49,7 +48,6 @@ class _GroceryListState extends State<GroceryList> {
     }
   }
 
-  // Selection mode
   void _selectionMode(GroceryItem item) {
     setState(() {
       _currentMode = Mode.selection;
@@ -57,7 +55,6 @@ class _GroceryListState extends State<GroceryList> {
     });
   }
 
-  // Selection state of an item in selection mode
   void _itemSelection(GroceryItem item) {
     setState(() {
       if (_selectedItems.contains(item)) {
@@ -71,7 +68,6 @@ class _GroceryListState extends State<GroceryList> {
     });
   }
 
-  // Removes selected items
   void _removeSelectedItems() {
     setState(() {
       _groceryItems.removeWhere((item) => _selectedItems.contains(item));
@@ -80,15 +76,13 @@ class _GroceryListState extends State<GroceryList> {
     });
   }
 
-  // Exits selection mode 
-  void _exitSelectionMode() {
+  void _setNomalMode() {
     setState(() {
       _selectedItems.clear();
       _currentMode = Mode.normal;
     });
   }
-
-  // item reorder in the list
+  
   void _onReorder(int oldIndex, int newIndex) {
     setState(() {
       if (newIndex > oldIndex) {
@@ -151,7 +145,7 @@ class _GroceryListState extends State<GroceryList> {
         leading: _currentMode == Mode.selection
             ? IconButton(
                 icon: const Icon(Icons.arrow_back),
-                onPressed: _exitSelectionMode,
+                onPressed: _setNomalMode,
               )
             : null,
         actions: _currentMode == Mode.selection

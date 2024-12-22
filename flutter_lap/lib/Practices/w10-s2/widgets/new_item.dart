@@ -7,11 +7,11 @@ class NewItem extends StatefulWidget {
   const NewItem({
     super.key,
     required this.mode,
-    this.existingItem, 
+    this.items, 
   });
 
   final Mode mode; 
-  final GroceryItem? existingItem;
+  final GroceryItem? items;
 
   @override
   State<NewItem> createState() => _NewItemState();
@@ -19,18 +19,16 @@ class NewItem extends StatefulWidget {
 
 class _NewItemState extends State<NewItem> {
   final _formKey = GlobalKey<FormState>();
-  
   late final TextEditingController _nameController;
   late final TextEditingController _quantityController;
-
   GroceryCategory? _selectedCategory;
 
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: widget.existingItem?.name ?? '');
-    _quantityController = TextEditingController(text: widget.existingItem?.quantity.toString() ?? '');
-    _selectedCategory = widget.existingItem?.category;
+    _nameController = TextEditingController(text: widget.items?.name ?? '');
+    _quantityController = TextEditingController(text: widget.items?.quantity.toString() ?? '');
+    _selectedCategory = widget.items?.category;
   }
 
   @override
@@ -40,21 +38,17 @@ class _NewItemState extends State<NewItem> {
     super.dispose();
   }
 
-  /// Saves the item after validation.
   void _saveItem() {
     if (!_formKey.currentState!.validate()) return;
-
     if (_selectedCategory == null) {
-      // Show error if no category is selected.
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please select a category')),
       );
       return;
     }
 
-    // Create a new GroceryItem with user input.
     final newItem = GroceryItem(
-      id: widget.existingItem?.id ?? DateTime.now().toString(),
+      id: widget.items?.id ?? DateTime.now().toString(),
       name: _nameController.text, 
       quantity: int.parse(_quantityController.text), 
       category: _selectedCategory!,
