@@ -65,8 +65,8 @@ class WeatherForecast extends StatelessWidget {
         return Icons.cloud;
       case WeatherCondition.snowy:
         return Icons.ac_unit;
-      default:
-        return Icons.help_outline;
+      // default:
+      //   return Icons.help_outline;
     }
   }
 }
