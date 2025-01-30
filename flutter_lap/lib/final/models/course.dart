@@ -5,8 +5,16 @@ class Course {
   Course({required this.name, this.scores = const []});
 
   double get averageScore {
-    if (scores.isEmpty) return 0;
-    return scores.map((e) => e.score).reduce((a, b) => a + b) / scores.length;
+    if (scores.isEmpty) {
+      return 0; 
+    }
+
+    double totalScore = 0;
+    for (var score in scores) {
+      totalScore += score.score;
+    }
+
+    return totalScore / scores.length;
   }
 
   int get numberOfScores => scores.length;

@@ -29,8 +29,6 @@ class _CourseViewState extends State<CourseView> {
         actions: [
           IconButton(
             onPressed: () async {
-            FocusScope.of(context).requestFocus(FocusNode());
-
             final result = await Navigator.push(
               context,
               MaterialPageRoute(
